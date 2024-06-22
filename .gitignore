@@ -71,9 +71,6 @@ instance/
 # Sphinx documentation
 docs/_build/
 
-# PyBuilder
-target/
-
 # Jupyter Notebook
 .ipynb_checkpoints
 
@@ -337,8 +334,6 @@ instance/
 docs/_build/
 doc/_build/
 
-# PyBuilder
-target/
 
 # Jupyter Notebook
 .ipynb_checkpoints

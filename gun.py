@@ -65,7 +65,7 @@ def main():
                 gun.lmb = 1
                 gun.start = 0
         gun.shoot()
-        screen.fill((255, 255, 255))
+        screen.fill((0, 0, 0))
         gun.location()
         gun.draw()
         pygame.display.update()

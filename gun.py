@@ -34,9 +34,9 @@ class Gun:
 
     def location(self):
 
-       if pygame.mouse.get_pos()[0] < 200:
+       if pygame.mouse.get_pos()[0] < 300:
            self.angle = 1
-       elif pygame.mouse.get_pos()[0] > 600:
+       elif pygame.mouse.get_pos()[0] > 500:
            self.angle = 2
        else:
            self.angle = 0

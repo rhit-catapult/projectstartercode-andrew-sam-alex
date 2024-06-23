@@ -50,11 +50,39 @@ class Gun:
             fire = 0
         image_index = self.angle + fire
         self.screen.blit(self.images[image_index], (self.xnew, self.recoil))
+
+class Reticle:
+    def __init__(self, screen, lmb):
+        self.screen = screen
+        self.lmb = 0
+        self.loop = 1
+        self.images = []
+        self.x = 0
+        self.y = 0
+        self.phase = 0
+        for k in range(11):
+            newimage = pygame.image.load(f"sprites/gun/ret/ret ({k+1}).png")
+            self.images.append(newimage)
+
+    def animate(self):
+        if self.phase >= 1:
+            self.phase = self.phase + 1
+        if self.lmb == 1:
+            self.phase = 1
+            self.lmb = 0
+        if self.phase == 11:
+            self.phase = 0
+    def draw(self):
+        self.screen.blit(self.images[self.phase], (self.x,self.y))
+    def move(self):
+        self.x = pygame.mouse.get_pos()[0] - 400
+        self.y = pygame.mouse.get_pos()[1] - 400
 def main():
     pygame.init()
     pygame.display.set_caption("gun test")
     screen = pygame.display.set_mode((800, 800))
     gun = Gun(screen, 0, lmb=0)
+    reticle = Reticle(screen, 1)
     clock = pygame.time.Clock()
     while True:
         clock.tick(30)
@@ -63,11 +91,15 @@ def main():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 gun.lmb = 1
+                reticle.lmb = 1
                 gun.start = 0
         gun.shoot()
         screen.fill((0, 0, 0))
         gun.location()
+        reticle.animate()
+        reticle.move()
         gun.draw()
+        reticle.draw()
         pygame.display.update()
 
 

@@ -72,17 +72,40 @@ class Reticle:
             self.lmb = 0
         if self.phase == 11:
             self.phase = 0
+
     def draw(self):
         self.screen.blit(self.images[self.phase], (self.x,self.y))
     def move(self):
         self.x = pygame.mouse.get_pos()[0] - 400
         self.y = pygame.mouse.get_pos()[1] - 400
+
+class Particle:
+    def __init__(self,screen, x, y, images):
+        self.screen = screen
+        self.x = x
+        self.y = y
+        self.images = images
+        self.phase = 0
+        self.lmb = 0
+
+
+    def animate(self):
+        if self.lmb == 1:
+            self.phase = self.phase + 1
+            self.screen.blit(self.images[self.phase], (self.x, self.y))
+
+
 def main():
     pygame.init()
+    particleimages = []
+    for k in range(8):
+        newimage = pygame.image.load(f"sprites/gun/hit/hit ({k + 1}).png")
+        particleimages.append(newimage)
     pygame.display.set_caption("gun test")
     screen = pygame.display.set_mode((800, 800))
     gun = Gun(screen, 0, lmb=0)
     reticle = Reticle(screen, 1)
+    particle = None
     clock = pygame.time.Clock()
     while True:
         clock.tick(30)
@@ -93,11 +116,18 @@ def main():
                 gun.lmb = 1
                 reticle.lmb = 1
                 gun.start = 0
+                particle = Particle(screen, pygame.mouse.get_pos()[0] - 400, pygame.mouse.get_pos()[1] - 400, particleimages)
+                particle.lmb = 1
+
         gun.shoot()
         screen.fill((0, 0, 0))
         gun.location()
         reticle.animate()
         reticle.move()
+        if particle is not None:
+            particle.animate()
+            if particle.phase == 7:
+                particle = None
         gun.draw()
         reticle.draw()
         pygame.display.update()

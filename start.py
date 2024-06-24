@@ -24,14 +24,31 @@ class Twirl:
         if self.phase == 49:
             gun.main(self.screen)
 
+class Wall:
+    def __init__(self, screen, lmb):
+        self.screen = screen
+        self.lmb = 0
+        self.phase = 0
+        self.images = []
+        self.prevent = 0
+        for k in range(41):
+            newimage = pygame.image.load(f"sprites/wall/curtan ({k + 1}).png")
+            self.images.append(newimage)
 
-
-
+    def shatter(self):
+        if self.phase != 40:
+            if self.phase > 0:
+                self.phase = self.phase + 1
+            if self.lmb == 1 and self.prevent == 0:
+                self.phase = 1
+                self.prevent = 1
+        self.screen.blit(self.images[self.phase], (0, 0))
 def main():
     pygame.init()
     pygame.display.set_caption("gun test")
     screen = pygame.display.set_mode((800, 800))
     twirl = Twirl(screen, 0)
+    wall = Wall(screen, 0)
     clock = pygame.time.Clock()
     while True:
         clock.tick(30)
@@ -40,7 +57,9 @@ def main():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 twirl.lmb = 1
+                wall.lmb = 1
         screen.fill((0, 0, 0))
+        wall.shatter()
         twirl.spin()
         pygame.display.update()
 

@@ -123,7 +123,6 @@ def main(screen):
                 particle.lmb = 1
 
         gun.shoot()
-        screen.fill((0, 0, 0))
         gun.location()
         reticle.animate()
         reticle.move()

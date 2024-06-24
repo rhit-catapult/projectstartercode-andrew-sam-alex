@@ -135,7 +135,7 @@ def main():
         for i in range(0,9):
             if states[i] == 0:
                 if random.randint(1,200) == 49:
-                    new_enemy = enemy(screen, i*50, 500, 50, 1, 1, "sprites/target/close/appear/spawn (44).png", 1, "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 1, -25, 8, i)
+                    new_enemy = enemy(screen, i*50, 500, 50, 1, 1, "sprites/target/close/appear/spawn (44).png", 1, "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -25, 8, i)
                     non_moving.append(new_enemy)
         pygame.display.update()
 if __name__ == "__main__":

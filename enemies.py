@@ -4,12 +4,11 @@ import random
 import time
 
 class enemy:
-    def __init__(self, screen, x, y, w, h, hp, max_hp, main_img, main_frames, del_img, del_frames, start_img, start_frames, img_scale, img_offset_x, img_offset_y):
+    def __init__(self, screen, x, y, r, hp, max_hp, main_img, main_frames, del_img, del_frames, start_img, start_frames, img_scale, img_offset_x, img_offset_y):
         self.screen = screen
-        self.x = x - w/2
-        self.y = y - h/2
-        self.w = w
-        self.h = h
+        self.x = x - r/2
+        self.y = y - r/2
+        self.r = r
         self.hp = hp
         self.max_hp = max_hp
         self.main_frames = main_frames
@@ -30,37 +29,38 @@ class enemy:
             self.start_frames = start_frames
 
     def render(self):
-        pygame.draw.rect(self.screen, "blue", (self.x, self.y, self.w, self.h))
+        pygame.draw.circle(self.screen, "blue", (self.x, self.y), self.r)
 
     def del_enemy(self):
         cur_img = pygame.image.load(self.del_img + f" ({self.del_frame}).png")
-        cur_img = pygame.transform.scale(cur_img, (self.w * self.img_scale, self.h * self.img_scale))
-        self.screen.blit(cur_img, (self.x + self.w / 2 - self.w * self.img_scale / 2 + self.img_offset_x,
-                                   self.y + self.h / 2 - self.h * self.img_scale / 2 + self.img_offset_y))
+        cur_img = pygame.transform.scale(cur_img, (self.r * self.img_scale, self.r * self.img_scale))
+        self.screen.blit(cur_img, (self.x + self.r / 2 - self.r * self.img_scale / 2 + self.img_offset_x,
+                                   self.y + self.r / 2 - self.r * self.img_scale / 2 + self.img_offset_y))
         self.del_frame += 1
         if self.del_frame > self.del_frames: self.on_screen = 0
 
     def render_obj(self):
         cur_img = pygame.image.load(self.main_img)
-        cur_img = pygame.transform.scale(cur_img, (self.w * self.img_scale, self.h * self.img_scale))
-        self.screen.blit(cur_img, (self.x + self.w/2 - self.w * self.img_scale/2 + self.img_offset_x, self.y + self.h/2 - self.h * self.img_scale/2 + self.img_offset_y))
+        cur_img = pygame.transform.scale(cur_img, (self.r * self.img_scale, self.r * self.img_scale))
+        self.screen.blit(cur_img, (self.x + self.r/2 - self.r * self.img_scale/2 + self.img_offset_x, self.y + self.r/2 - self.r * self.img_scale/2 + self.img_offset_y))
 
     def initialize(self):
         cur_img = pygame.image.load(self.start_img + f" ({self.start_frame}).png")
-        cur_img = pygame.transform.scale(cur_img, (self.w * self.img_scale, self.h * self.img_scale))
-        self.screen.blit(cur_img, (self.x + self.w/2 - self.w * self.img_scale/2 + self.img_offset_x, self.y + self.h/2 - self.h * self.img_scale/2 + self.img_offset_y))
+        cur_img = pygame.transform.scale(cur_img, (self.r * self.img_scale, self.r * self.img_scale))
+        self.screen.blit(cur_img, (self.x + self.r/2 - self.r * self.img_scale/2 + self.img_offset_x, self.y + self.r/2 - self.r * self.img_scale/2 + self.img_offset_y))
         self.start_frame += 1
         if self.start_frame > self.start_frames: self.initialized = 1
 
     def hit_by(self, dmg):
         if pygame.mouse.get_pressed()[0]:
-            if pygame.mouse.get_pos()[0] > self.x and pygame.mouse.get_pos()[0] < self.x + self.w and pygame.mouse.get_pos()[1] > self.y and pygame.mouse.get_pos()[0] < self.y + self.h and self.hp >= 0:
+            if (pygame.mouse.get_pos()[0] - self.x) ** 2 + (pygame.mouse.get_pos()[1] - self.y) ** 2 < self.r ** 2:
                 self.hp -= dmg
+
                 #print(f"{self.hp}/{self.max_hp}")
 
     def render_hp(self):
-        pygame.draw.rect(self.screen, "red", (self.x, self.y - 50, self.w, 10))
-        pygame.draw.rect(self.screen, "green", (self.x, self.y - 50, self.w * self.hp / self.max_hp, 10))
+        pygame.draw.rect(self.screen, "red", (self.x, self.y - 50, self.r, 10))
+        pygame.draw.rect(self.screen, "green", (self.x, self.y - 50, self.r * self.rp / self.max_hp, 10))
 
 class moving_enemy(enemy):
     def __init__(self, screen,  start_x, start_y, end_x, end_y, w, h, hp, max_hp, speed, start_size, end_size):
@@ -98,12 +98,10 @@ class moving_enemy(enemy):
         pygame.draw.rect(self.screen, "green", (self.x, self.y - 50 * self.size, self.w * self.size * self.hp / self.max_hp, 10))
 def main():
     pygame.init()
-    screen = pygame.display.set_mode((800, 700))
+    screen = pygame.display.set_mode((800, 800))
     clock = pygame.time.Clock()
-    test_enemy = enemy(screen, 500, 500, 100, 100, 1, 1, "sprites/target/close/appear/spawn (44).png", 1, "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 9, 0, 30)
+    test_enemy = enemy(screen, 500, 500, 50, 1, 1, "sprites/target/close/appear/spawn (44).png", 1, "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -25, 8)
     non_moving = [test_enemy]
-    mover = moving_enemy(screen, 200, 400, 300, 500, 100, 200, 200, 200, 1, 1, 2)
-    moving = [mover]
     while 1:
         clock.tick(30)
         screen.fill(pygame.Color("white"))
@@ -114,22 +112,17 @@ def main():
             if e.initialized:
                 if not e.on_screen:
                     non_moving.remove(e)
+                    new_enemy = enemy(screen, 500, 500, 50, 1, 1, "sprites/target/close/appear/spawn (44).png", 1, "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -25, 8)
+                    non_moving.append(new_enemy)
                 elif e.hp <= 0:
                     e.del_enemy()
                 else:
                     e.hit_by(10)
                     e.render()
-                    e.render_hp()
+                    #e.render_hp()
                     e.render_obj()
             else:
                 e.initialize()
-        for m in moving:
-            m.hit_by(10)
-            m.render()
-            m.move_to_tar()
-            m.render_hp()
-            if m.hp <= 0:
-                moving.remove(m)
         pygame.display.update()
 if __name__ == "__main__":
     main()

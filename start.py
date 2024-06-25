@@ -43,9 +43,9 @@ class Wall:
                 self.phase = 1
                 self.prevent = 1
         self.screen.blit(self.images[self.phase], (0, 0))
+pygame.display.set_caption("Target Shooter, Quest for the Onion Ring")
 def main():
     pygame.init()
-    pygame.display.set_caption("gun test")
     screen = pygame.display.set_mode((800, 800))
     twirl = Twirl(screen, 0)
     wall = Wall(screen, 0)

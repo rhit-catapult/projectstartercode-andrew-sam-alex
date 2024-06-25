@@ -21,7 +21,7 @@ class Earth:
 
 
 
-def main():
+def main(screen):
     pygame.init()
     background = pygame.image.load("sprites/scene/test1.png")
     screen = pygame.display.set_mode((800, 800))

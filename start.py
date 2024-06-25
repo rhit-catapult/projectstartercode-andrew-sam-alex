@@ -2,6 +2,8 @@ import pygame
 import sys
 import time
 import gun
+import goodending
+import badending
 class Twirl:
     def __init__ (self, screen, lmb):
         self.screen = screen
@@ -43,7 +45,7 @@ class Wall:
                 self.phase = 1
                 self.prevent = 1
         self.screen.blit(self.images[self.phase], (0, 0))
-pygame.display.set_caption("Target Shooter, Quest for the Onion Ring")
+pygame.display.set_caption("Loading ...")
 def main():
     pygame.init()
     screen = pygame.display.set_mode((800, 800))
@@ -51,7 +53,10 @@ def main():
     twirl = Twirl(screen, 0)
     wall = Wall(screen, 0)
     clock = pygame.time.Clock()
+    cutscene = 0
+    outoftime = 120
     while True:
+        pygame.display.set_caption("Target Shooter, Quest for the Onion Ring")
         clock.tick(30)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -59,10 +64,17 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 twirl.lmb = 1
                 wall.lmb = 1
-        screen.fill((0, 0, 0))
-        wall.shatter()
-        twirl.spin()
+        if outoftime != 0:
+            screen.fill((0, 0, 0))
+            wall.shatter()
+            twirl.spin()
+        if outoftime == 0:
+            if cutscene == 1:
+                goodending.main(screen)
+            if cutscene == 0:
+                badending.main(screen)
         pygame.display.update()
+
 
 
 if __name__  == "__main__":

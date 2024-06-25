@@ -47,6 +47,7 @@ pygame.display.set_caption("Target Shooter, Quest for the Onion Ring")
 def main():
     pygame.init()
     screen = pygame.display.set_mode((800, 800))
+    screen.fill("white")
     twirl = Twirl(screen, 0)
     wall = Wall(screen, 0)
     clock = pygame.time.Clock()

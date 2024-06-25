@@ -4,7 +4,7 @@ import random
 import time
 
 class enemy:
-    def __init__(self, screen, x, y, r, hp, max_hp, main_img, main_frames, del_img, del_frames, start_img, start_frames, img_scale, img_offset_x, img_offset_y, id):
+    def __init__(self, screen, x, y, r, hp, max_hp, main_img, main_frames, del_img, del_frames, start_img, start_frames, img_scale, img_offset_x, img_offset_y, id, score):
         self.screen = screen
         self.x = x - r/2
         self.y = y - r/2
@@ -29,6 +29,7 @@ class enemy:
         self.start_array = []
         self.del_array = []
         self.main_img = main_img
+        self.score = score
         for i in range(1, start_frames + 1):
             cur_img = pygame.image.load(start_img + f" ({i}).png").convert_alpha()
             cur_img = pygame.transform.scale(cur_img, (self.r * self.img_scale, self.r * self.img_scale))
@@ -122,37 +123,44 @@ def main():
     screen = pygame.display.set_mode((800, 800))
     clock = pygame.time.Clock()
     tar_1 = enemy(screen, 150, 385, 50, 1, 1, "sprites/target/close/appear/spawn (44).png", 1,
-                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -25, 8, 1)
+                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -25, 8, 1, 5)
     tar_2 = enemy(screen, 335, 385, 50, 1, 1, "sprites/target/close/appear/spawn (44).png", 1,
-                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -25, 8, 2)
+                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -25, 8, 2, 5)
     tar_3 = enemy(screen, 520, 385, 50, 1, 1, "sprites/target/close/appear/spawn (44).png", 1,
-                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -25, 8, 3)
+                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -25, 8, 3, 5)
     tar_4 = enemy(screen, 705, 385, 50, 1, 1, "sprites/target/close/appear/spawn (44).png", 1,
-                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -25, 8, 4)
+                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -25, 8, 4, 5)
     tar_5 = enemy(screen, 237, 455, 25, 1, 1, "sprites/target/close/appear/spawn (44).png", 1,
-                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -12, 3, 5)
+                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -12, 3, 5, 10)
     tar_6 = enemy(screen, 412, 455, 25, 1, 1, "sprites/target/close/appear/spawn (44).png", 1,
-                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -12, 3, 6)
+                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -12, 3, 6, 10)
     tar_7 = enemy(screen, 585, 455, 25, 1, 1, "sprites/target/close/appear/spawn (44).png", 1,
-                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -12, 3, 7)
+                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -12, 3, 7, 10)
     tar_8 = enemy(screen, 237, 190, 25, 1, 1, "sprites/target/close/appear/spawn (44).png", 1,
-                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -12, 3, 8)
+                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -12, 3, 8, 15)
     tar_9 = enemy(screen, 412, 190, 25, 1, 1, "sprites/target/close/appear/spawn (44).png", 1,
-                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -12, 3, 9)
+                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -12, 3, 9, 15)
     tar_10 = enemy(screen, 585, 190, 25, 1, 1, "sprites/target/close/appear/spawn (44).png", 1,
-                   "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -12, 3, 10)
+                   "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -12, 3, 10, 15)
     non_moving = [tar_1, tar_2, tar_3, tar_4, tar_5, tar_6, tar_7, tar_8, tar_9, tar_10]
+    states = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     bg = pygame.image.load("sprites/scene/test2.png")
+    score = 0
+    font = pygame.font.SysFont("impact", 50)
     while 1:
         clock.tick(30)
         screen.fill(pygame.Color("white"))
         screen.blit(bg, (0, 0))
+        textimage = font.render(str(score), True, "white")
+        screen.blit(textimage, (750, 50))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
         for e in non_moving:
             if e.initialized:
                 if e.hp <= 0:
+                    if states[e.id - 1] == 1: score += e.score
+                    states[e.id - 1] = 0
                     e.del_enemy()
                 else:
                     e.hit_by(10)
@@ -163,6 +171,7 @@ def main():
                 if random.randint(1, 100) == e.id:
                     e.initializing = True
                 if e.initializing:
+                    states[e.id - 1] = 1
                     e.initialize()
         pygame.display.update()
 if __name__ == "__main__":

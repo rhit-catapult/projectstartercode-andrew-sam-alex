@@ -17,7 +17,7 @@ class Gun:
         self.start = 20
         self.click = False
         for k in range(6):
-            newimage = pygame.image.load(f"sprites/gun/aim/aim ({k+1}).png")
+            newimage = pygame.image.load(f"sprites/gun/aim/aim ({k+1}).png").convert_alpha()
             self.images.append(newimage)
 
     def shoot(self):
@@ -61,7 +61,7 @@ class Reticle:
         self.y = 0
         self.phase = 0
         for k in range(11):
-            newimage = pygame.image.load(f"sprites/gun/ret/ret ({k+1}).png")
+            newimage = pygame.image.load(f"sprites/gun/ret/ret ({k+1}).png").convert_alpha()
             self.images.append(newimage)
 
     def animate(self):
@@ -88,7 +88,7 @@ class Particle:
         self.lmb = 0
         self.particleimages = []
         for k in range(8):
-            newimage = pygame.image.load(f"sprites/gun/hit/hit ({k + 1}).png")
+            newimage = pygame.image.load(f"sprites/gun/hit/hit ({k + 1}).png").convert_alpha()
             self.particleimages.append(newimage)
 
 

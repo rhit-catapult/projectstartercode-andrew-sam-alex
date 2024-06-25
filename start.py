@@ -54,7 +54,7 @@ def main():
     wall = Wall(screen, 0)
     clock = pygame.time.Clock()
     cutscene = 0
-    outoftime = 120
+    outoftime = 0
     while True:
         pygame.display.set_caption("Target Shooter, Quest for the Onion Ring")
         clock.tick(30)

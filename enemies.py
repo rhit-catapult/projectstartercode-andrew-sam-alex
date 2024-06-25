@@ -2,7 +2,6 @@ import pygame
 import sys
 import random
 import time
-
 class enemy:
     def __init__(self, screen, x, y, r, hp, max_hp, main_img, main_frames, del_img, del_frames, start_img, start_frames, img_scale, img_offset_x, img_offset_y, id, score):
         self.screen = screen
@@ -74,9 +73,9 @@ class enemy:
             self.initializing = False
 
     def hit_by(self, dmg):
-        if pygame.mouse.get_pressed()[0]:
-            if (pygame.mouse.get_pos()[0] - self.x) ** 2 + (pygame.mouse.get_pos()[1] - self.y) ** 2 < self.r ** 2:
-                self.hp -= dmg
+        if (pygame.mouse.get_pos()[0] - self.x) ** 2 + (pygame.mouse.get_pos()[1] - self.y) ** 2 < self.r ** 2:
+            self.hp -= dmg
+
 
                 #print(f"{self.hp}/{self.max_hp}")
 
@@ -123,47 +122,64 @@ def main():
     screen = pygame.display.set_mode((800, 800))
     clock = pygame.time.Clock()
     tar_1 = enemy(screen, 150, 385, 50, 1, 1, "sprites/target/close/appear/spawn (44).png", 1,
-                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -25, 8, 1, 5)
+                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -25, 8, 1, 100)
     tar_2 = enemy(screen, 335, 385, 50, 1, 1, "sprites/target/close/appear/spawn (44).png", 1,
-                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -25, 8, 2, 5)
+                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -25, 8, 2, 100)
     tar_3 = enemy(screen, 520, 385, 50, 1, 1, "sprites/target/close/appear/spawn (44).png", 1,
-                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -25, 8, 3, 5)
+                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -25, 8, 3, 100)
     tar_4 = enemy(screen, 705, 385, 50, 1, 1, "sprites/target/close/appear/spawn (44).png", 1,
-                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -25, 8, 4, 5)
+                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -25, 8, 4, 100)
     tar_5 = enemy(screen, 237, 455, 25, 1, 1, "sprites/target/close/appear/spawn (44).png", 1,
-                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -12, 3, 5, 10)
+                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -12, 3, 5, 200)
     tar_6 = enemy(screen, 412, 455, 25, 1, 1, "sprites/target/close/appear/spawn (44).png", 1,
-                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -12, 3, 6, 10)
+                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -12, 3, 6, 200)
     tar_7 = enemy(screen, 585, 455, 25, 1, 1, "sprites/target/close/appear/spawn (44).png", 1,
-                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -12, 3, 7, 10)
+                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -12, 3, 7, 200)
     tar_8 = enemy(screen, 237, 190, 25, 1, 1, "sprites/target/close/appear/spawn (44).png", 1,
-                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -12, 3, 8, 15)
+                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -12, 3, 8, 300)
     tar_9 = enemy(screen, 412, 190, 25, 1, 1, "sprites/target/close/appear/spawn (44).png", 1,
-                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -12, 3, 9, 15)
+                  "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -12, 3, 9, 300)
     tar_10 = enemy(screen, 585, 190, 25, 1, 1, "sprites/target/close/appear/spawn (44).png", 1,
-                   "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -12, 3, 10, 15)
-    non_moving = [tar_1, tar_2, tar_3, tar_4, tar_5, tar_6, tar_7, tar_8, tar_9, tar_10]
+                   "sprites/target/close/shot/despawn", 19, "sprites/target/close/appear/spawn", 44, 19, -12, 3, 10, 300)
+    non_moving = [tar_10, tar_9, tar_8, tar_7, tar_6, tar_5, tar_4, tar_3, tar_2, tar_1]
     states = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    bg = pygame.image.load("sprites/scene/test2.png")
+    bg = pygame.image.load("sprites/scene/background.png").convert_alpha()
+    f1 = pygame.image.load("sprites/scene/front1.png").convert_alpha()
+    f2 = pygame.image.load("sprites/scene/front2.png").convert_alpha()
+    m = pygame.image.load("sprites/scene/mid.png").convert_alpha()
+    t1 = pygame.image.load("sprites/scene/top1.png").convert_alpha()
+    t2 = pygame.image.load("sprites/scene/top2.png").convert_alpha()
     score = 0
     font = pygame.font.SysFont("impact", 50)
+    animate = 0
+    cycle = 30
+    init_tick = pygame.time.get_ticks()
+    timeleft = 69
     while 1:
         clock.tick(30)
+        seconds = (pygame.time.get_ticks() - init_tick) / 1000
+        clicking = False
+        storeprevscore = score
+        animate += 1
+        if animate > cycle:
+            animate = 0
         screen.fill(pygame.Color("white"))
         screen.blit(bg, (0, 0))
         textimage = font.render(str(score), True, "white")
-        screen.blit(textimage, (750, 50))
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
+        screen.blit(textimage, (350, 50))
+        if timeleft > 0: timeleft = int(125 - seconds)
+        if timeleft > 10: timeimage = font.render(str(timeleft), True, "white")
+        else: timeimage = font.render(str(timeleft), True, "red")
+        screen.blit(timeimage, (725, 50))
         for e in non_moving:
             if e.initialized:
                 if e.hp <= 0:
-                    if states[e.id - 1] == 1: score += e.score
+                    if states[e.id - 1] == 1:
+                        score += e.score
                     states[e.id - 1] = 0
                     e.del_enemy()
                 else:
-                    e.hit_by(10)
+                    #e.hit_by(10)
                     e.render()
                     #e.render_hp()
                     e.render_obj()
@@ -173,6 +189,32 @@ def main():
                 if e.initializing:
                     states[e.id - 1] = 1
                     e.initialize()
+            if e.id == 1:
+                if animate <= cycle/2: screen.blit(f1, (0,0))
+                else: screen.blit(f2, (0,0))
+            if e.id == 5:
+                screen.blit(m, (0,0))
+            if e.id == 8:
+                if animate <= cycle/2:
+                    screen.blit(t1, (0, 0))
+                else:
+                    screen.blit(t2, (0, 0))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                punish = True
+                for e in non_moving:
+                    if not e.initialized:
+                        continue
+                    state1 = e.hp
+                    e.hit_by(10)
+                    state2 = e.hp
+                    if state1 > state2:
+                        punish = False
+                        break
+                if punish and score > 0:
+                    score -=50
         pygame.display.update()
 if __name__ == "__main__":
     main()

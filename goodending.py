@@ -11,9 +11,9 @@ class Onion:
             newimage = pygame.image.load(f"cutscenes/good ending/loot ({k + 1}).png")
             self.images.append(newimage)
         self.onionring = pygame.mixer.Sound("sounds/Jerma985 - ONION RING POG!!!.mp3")
-        self.onionring.set_volume(5)
+        self.onionring.set_volume(10)
         self.congrat = pygame.mixer.Sound("sounds/congratulations-deep-voice-172193.mp3")
-        self.congrat.set_volume(5)
+        self.congrat.set_volume(10)
         self.good = pygame.mixer.Sound("sounds/goodresult-82807.mp3")
 
     def play(self):

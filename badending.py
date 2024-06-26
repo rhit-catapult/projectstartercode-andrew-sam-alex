@@ -16,6 +16,7 @@ class Earth:
                 newimage = pygame.image.load("cutscenes/bad ending/end0000.png")
                 self.images.append(newimage)
         self.explode = pygame.mixer.Sound("sounds/bombs for throwing.mp3")
+        self.explode.set_volume(10)
         self.drama = pygame.mixer.Sound("sounds/distant-explosion-47562.mp3")
 
     def play(self):

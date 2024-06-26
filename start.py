@@ -88,7 +88,6 @@ def main():
     font = pygame.font.SysFont("impact", 50)
     animate = 0
     cycle = 30
-    init_tick = pygame.time.get_ticks()
     timeleft = 69
     game = False
     the_gun = gun.Gun(screen, 0, lmb=0)
@@ -105,6 +104,7 @@ def main():
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     game = True
+                    init_tick = pygame.time.get_ticks()
         if game:
             twirl.lmb = 1
             wall.lmb = 1
@@ -118,7 +118,7 @@ def main():
             if score < 20000: textimage = font.render(str(score)+"/20000", True, "white")
             else: textimage = font.render(str(score)+"/20000", True, "green")
             screen.blit(textimage, (300, 50))
-            if timeleft > 0: timeleft = int(125 - seconds)
+            if timeleft > 0: timeleft = int(5 - seconds)
             if timeleft > 10:
                 timeimage = font.render(str(timeleft), True, "white")
             else:

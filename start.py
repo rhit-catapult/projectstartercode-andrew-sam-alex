@@ -45,10 +45,19 @@ class Wall:
                 self.phase = 1
                 self.prevent = 1
         self.screen.blit(self.images[self.phase], (0, 0))
-pygame.display.set_caption("Loading ...")
+
 def main():
     pygame.init()
     screen = pygame.display.set_mode((800, 800))
+    load1 = pygame.image.load("loading screens/load.png")
+    screen.blit(load1, (0, 0))
+    pygame.display.set_caption("Loading ...")
+    pygame.display.update()
+    impact = pygame.mixer.Sound("sounds/bullet_impact.mp3")
+    shoot = pygame.mixer.Sound("sounds/gunshot.mp3")
+    shoot.set_volume(.3)
+    reload = pygame.mixer.Sound("sounds/reload-123781.mp3")
+    buzzer = pygame.mixer.Sound("sounds/startend_buzzer.mp3")
     screen.fill("white")
     twirl = Twirl(screen, 0)
     wall = Wall(screen, 0)
@@ -105,6 +114,7 @@ def main():
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     game = True
                     init_tick = pygame.time.get_ticks()
+                    reload.play()
         if game:
             twirl.lmb = 1
             wall.lmb = 1
@@ -130,6 +140,7 @@ def main():
                         if states[e.id - 1] == 1:
                             score += e.score
                         states[e.id - 1] = 0
+
                         e.del_enemy()
                     else:
                         # e.hit_by(10)
@@ -158,6 +169,8 @@ def main():
                 if event.type == pygame.QUIT:
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
+                    shoot.play()
+
                     punish = True
                     the_gun.lmb = 1
                     reticle.lmb = 1
@@ -174,6 +187,7 @@ def main():
                         state2 = e.hp
                         if state1 > state2:
                             punish = False
+                            impact.play()
                     if punish and score > 0:
                         score -= 50
             the_gun.shoot()
@@ -190,6 +204,7 @@ def main():
         if outoftime != 0:
             wall.shatter()
         if outoftime == 0:
+            buzzer.play()
             if cutscene == 1:
                 goodending.main(screen)
             if cutscene == 0:

@@ -118,7 +118,7 @@ def main():
             if score < 20000: textimage = font.render(str(score)+"/20000", True, "white")
             else: textimage = font.render(str(score)+"/20000", True, "green")
             screen.blit(textimage, (300, 50))
-            if timeleft > 0: timeleft = int(5 - seconds)
+            if timeleft > 0: timeleft = int(120 - seconds)
             if timeleft > 10:
                 timeimage = font.render(str(timeleft), True, "white")
             else:

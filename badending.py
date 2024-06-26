@@ -1,6 +1,7 @@
 import pygame
 import sys
 import time
+import math
 
 class Earth:
     def __init__(self, screen):
@@ -8,8 +9,12 @@ class Earth:
         self.phase = 0
         self.images = []
         for k in range(301):
-            newimage = pygame.image.load(f"cutscenes/bad ending/end ({k + 1}).jpg")
-            self.images.append(newimage)
+            if k > 0:
+                newimage = pygame.image.load("cutscenes/bad ending/end"+"0" * (4 - (math.floor(math.log(k, 10))+1)) + str(k) + ".png")
+                self.images.append(newimage)
+            else:
+                newimage = pygame.image.load("cutscenes/bad ending/end0000.png")
+                self.images.append(newimage)
 
     def play(self):
         if self.phase != 300:

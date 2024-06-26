@@ -18,7 +18,7 @@ class Onion:
     def play(self):
         if self.phase == 1:
             self.onionring.play()
-        if self.phase == 209:
+        if self.phase == 150:
             self.congrat.play()
         if self.phase == 1:
             self.good.play()

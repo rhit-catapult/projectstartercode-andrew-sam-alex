@@ -104,7 +104,7 @@ def main():
     reticle = gun.Reticle(screen, 1)
     particle = gun.Particle(screen, 0, 0)
     clock = pygame.time.Clock()
-    towin = 25000
+    towin = 15000
     while True:
         pygame.display.set_caption("Target Shooter, Quest for the Onion Ring")
         clock.tick(30)
@@ -131,7 +131,7 @@ def main():
             if score < towin: textimage = font.render(str(score)+f"/{towin}", True, "white")
             else: textimage = font.render(str(score)+f"/{towin}", True, "green")
             screen.blit(textimage, (300, 50))
-            if timeleft > 0: timeleft = int(120 - seconds)
+            if timeleft > 0: timeleft = int(60 - seconds)
             if timeleft > 10:
                 timeimage = font.render(str(timeleft), True, "white")
             else:

@@ -58,6 +58,7 @@ def main():
     shoot.set_volume(.3)
     reload = pygame.mixer.Sound("sounds/reload-123781.mp3")
     buzzer = pygame.mixer.Sound("sounds/startend_buzzer.mp3")
+    pygame.mixer_music.load("sounds/Tough Guy Alert! - Mario & Luigi_ Bowser's Inside Story OST.mp3")
     screen.fill("white")
     twirl = Twirl(screen, 0)
     wall = Wall(screen, 0)
@@ -113,6 +114,7 @@ def main():
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     game = True
+                    pygame.mixer_music.play()
                     init_tick = pygame.time.get_ticks()
                     reload.play()
         if game:
@@ -204,6 +206,7 @@ def main():
         if outoftime != 0:
             wall.shatter()
         if outoftime == 0:
+            pygame.mixer_music.stop()
             buzzer.play()
             if cutscene == 1:
                 goodending.main(screen)
